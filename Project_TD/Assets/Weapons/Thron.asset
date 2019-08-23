@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf68581f170845469c4de1f5c394d37, type: 3}
+  m_Name: Thron
+  m_EditorClassIdentifier: 
+  weaponOBJ: {fileID: 8156252301670370531, guid: 83b96fbe01a8dfa4bba776e4a5ec5295,
+    type: 3}
+  damage: 15
+  fireSpeed: 1
+  gunFireSound: 
