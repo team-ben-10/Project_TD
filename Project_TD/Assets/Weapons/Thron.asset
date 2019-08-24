@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponOBJ: {fileID: 8156252301670370531, guid: 83b96fbe01a8dfa4bba776e4a5ec5295,
     type: 3}
+  shootParticle: {fileID: 7938823602133706447, guid: 08af6dc1441b5424d8c5c338623d4aeb,
+    type: 3}
   damage: 15
   fireSpeed: 1
   gunFireSound: 

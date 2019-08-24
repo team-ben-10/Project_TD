@@ -6,6 +6,7 @@ using UnityEngine;
 public class Weapon : ScriptableObject
 {
     public GameObject weaponOBJ;
+    public GameObject shootParticle;
     public float damage;
     public float fireSpeed;
     

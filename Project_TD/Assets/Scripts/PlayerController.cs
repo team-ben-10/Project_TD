@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float movement = InputManager.instance.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(movement * speed,Mathf.Clamp(rb.velocity.y,-12,25));
+        rb.velocity = new Vector2(movement * speed,Mathf.Clamp(rb.velocity.y,-25,25));
         if (InputManager.instance.GetButtonDown("Jump") && onGround)
         {
             rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);

@@ -29,26 +29,31 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
+        //Basic Camera Follow
+        Camera.main.transform.position = transform.position + new Vector3(0, 0,-10);
+
+
         if (Input.GetMouseButton(0) && canFire)
         {
             StartCoroutine(Shoot());
         }
         
         Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - currentGunObject.transform.position).normalized;
-        Quaternion rotation = Quaternion.Euler(0, 0, (Mathf.Atan2(dir.y, dir.x)+Mathf.PI) * Mathf.Rad2Deg);
+        Quaternion rotation = Quaternion.Euler(isLookingLeft ? 0 : 180, 0, (Mathf.Atan2(dir.y, dir.x)+Mathf.PI) * Mathf.Rad2Deg * (isLookingLeft?1:-1));
         currentGunObject.transform.rotation = rotation;
 
+        Vector2 dirToPlayer = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 
         if (isLookingLeft)
         {
-            if (dir.x > 0)
+            if (dirToPlayer.x > 0)
             {
                 Flip();
             }
         }
         else
         {
-            if (dir.x < 0)
+            if (dirToPlayer.x < 0)
             {
                 Flip();
             }
@@ -59,7 +64,6 @@ public class WeaponManager : MonoBehaviour
     {
         isLookingLeft = !isLookingLeft;
         transform.eulerAngles = new Vector3(0, isLookingLeft ? 0 : 180, 0);
-        currentGunObject.GetComponent<SpriteRenderer>().flipY = !isLookingLeft;
     }
 
     IEnumerator Shoot()
@@ -67,11 +71,15 @@ public class WeaponManager : MonoBehaviour
         canFire = false;
         //TODO: Play Sound, Particle.
         GameObject firePoint = currentGunObject.transform.GetChild(0).gameObject;
-        Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - firePoint.transform.position).normalized;
+        Vector2 dir = -firePoint.transform.right;
         RaycastHit2D hit = Physics2D.Raycast(firePoint.transform.position, dir,shootable);
         LineRenderer lr = new GameObject("line", typeof(LineRenderer)).GetComponent<LineRenderer>();
+        GameObject shootParticle = Instantiate(currentWeapon.shootParticle,firePoint.transform.position,firePoint.transform.rotation);
+        shootParticle.transform.eulerAngles += currentWeapon.shootParticle.transform.eulerAngles;
+        Destroy(shootParticle,1f);
         lr.endWidth = 0.005f;
         lr.startWidth = 0.005f;
+        lr.sortingOrder = 1;
         lr.SetPosition(0, firePoint.transform.position);
         if (hit)
         {
@@ -81,6 +89,9 @@ public class WeaponManager : MonoBehaviour
         {
             lr.SetPosition(1, dir*100);
         }
+        Material m = new Material(Shader.Find("Standard"));
+        m.color = new Color(255, 255, 255, 1);
+        lr.material = m;
         Destroy(lr.gameObject, 0.1f);
         yield return new WaitForSeconds(currentWeapon.fireSpeed);
         canFire = true;
