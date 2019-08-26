@@ -12,6 +12,7 @@ public class Client : MonoBehaviour
 {
     public static Client instance;
     [HideInInspector] public Socket client;
+    Thread readingThread;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class Client : MonoBehaviour
         {
             Debug.Log(e.Message);
         }
-        new Thread(() =>
+        readingThread = new Thread(() =>
         {
             while (client.Connected)
             {
@@ -48,7 +49,8 @@ public class Client : MonoBehaviour
                     UnityMainThreadDispatcher.Instance().Enqueue(() => onMSGRecieved.Invoke(text));
                 }
             }
-        }).Start();
+        });
+        readingThread.Start();
     }
 
     void OnMessageRecieved(string s)
@@ -65,7 +67,7 @@ public class Client : MonoBehaviour
         if (s == "%GameWon")
         {
             SceneManager.LoadScene(0);
-            Send("$LostGame");
+            Disconnect();
             Debug.Log("Won the Game!");
         }
     }
@@ -86,13 +88,17 @@ public class Client : MonoBehaviour
         }
     }
 
-    
+    public void Disconnect()
+    {
+        readingThread.Abort();
+        Send("$LostGame");
+    }
     
     private void OnApplicationQuit()
     {
         if(client != null)
         {
-            Send("$LostGame");
+            Disconnect();
         }
     }
 }

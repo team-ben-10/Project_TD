@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Lost!");
-            Client.instance.Send("$LostGame");
+            Client.instance.Disconnect();
             SceneManager.LoadScene(0);
         }
     }
