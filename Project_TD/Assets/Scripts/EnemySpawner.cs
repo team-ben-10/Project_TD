@@ -38,8 +38,8 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
             Instantiate(enemyObject, transform.position, Quaternion.identity);
-            if(round%5==0)
-                SpawnTime -= Time.deltaTime;
+            if(round%2==0)
+                SpawnTime -= 0.01f;
             round++;
         }
         StartCoroutine(Spawn());
