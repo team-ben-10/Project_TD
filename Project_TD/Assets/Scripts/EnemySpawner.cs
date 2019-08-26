@@ -20,6 +20,8 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(Spawn());
     }
 
+    int round = 0;
+
     IEnumerator Spawn()
     {
         yield return new WaitForSeconds(SpawnTime);
@@ -36,6 +38,9 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
             Instantiate(enemyObject, transform.position, Quaternion.identity);
+            if(round%5==0)
+                SpawnTime -= Time.deltaTime;
+            round++;
         }
         StartCoroutine(Spawn());
     }
@@ -43,6 +48,6 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnBlocker(int v)
     {
         Debug.Log(v + " Blocker was recieved!");
-        Instantiate(spawnRatios[v].enemyPrefab, transform.position, Quaternion.identity);
+        Instantiate(spawnRatios[v-1].enemyPrefab, transform.position, Quaternion.identity);
     }
 }

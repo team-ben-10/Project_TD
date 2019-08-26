@@ -39,7 +39,7 @@ server.listen(35555, internalAddress);
 console.log("Server running on " + internalAddress + "! Min Player Count: " + playerCount);
 
 server.on("connection", function (socket) {
-    console.log("New Client " + socket.address().address);
+    console.log("New Client " + socket.remoteAddress);
     allClients.push(socket);
     if (allClients.length >= playerCount) {
         allClients.forEach((s) => {
@@ -48,11 +48,11 @@ server.on("connection", function (socket) {
     }
     socket.on("close", function () {
         allClients = allClients.filter(function (s) {
-            return s.address().address != socket.address().address;
+            return s.remoteAddress != socket.remoteAddress;
         });
         console.log("Client disconnected! " + allClients.length);
         if (allClients.length <= 1 && allClients.length > 0) {
-            
+
             allClients[0].write("%GameWon");
         }
     });
@@ -62,15 +62,14 @@ server.on("connection", function (socket) {
         var command = s.split(" ");
         if (command[0] == "$SendBlocker") {
             allClients.forEach(function (s) {
-                if (s.address().address != socket.address().address) {
+                if (s.remoteAddress != socket.remoteAddress) {
                     s.write("%RecieveBlocker " + command[1]);
                 }
             });
         }
-        socket.
         if (command[0] == "$LostGame") {
             allClients = allClients.filter(function (ss) {
-                return ss.address().address != socket.address().address;
+                return ss.remoteAddress != socket.remoteAddress;
             });
             if (allClients.length <= 1 && allClients.length > 0) {
 
@@ -79,4 +78,3 @@ server.on("connection", function (socket) {
         }
     });
 });
-
