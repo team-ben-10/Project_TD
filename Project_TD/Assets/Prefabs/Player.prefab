@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31460b5e7893344aacf4ba83b43a188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 11400000, guid: 5d045f1b26c369e48b0082537fa21ffb, type: 2}
+  currentWeapon: {fileID: 11400000, guid: 93475e7ee63883744b41223653a61722, type: 2}
   gunPoint: {fileID: 140290880437275171}
   shootable:
     serializedVersion: 2

@@ -64,7 +64,6 @@ public class Client : MonoBehaviour
         }
         if (s == "%GameWon")
         {
-            Client.instance.client.Disconnect(true);
             SceneManager.LoadScene(0);
             Debug.Log("Won the Game!");
         }
@@ -92,8 +91,7 @@ public class Client : MonoBehaviour
     {
         if(client != null)
         {
-            client.Disconnect(false);
-            client.Dispose();
+            Send("$LostGame");
         }
     }
 }

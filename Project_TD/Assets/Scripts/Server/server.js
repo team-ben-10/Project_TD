@@ -46,16 +46,6 @@ server.on("connection", function (socket) {
             s.write("%BeginGame");
         });
     }
-    socket.on("close", function () {
-        allClients = allClients.filter(function (s) {
-            return s.remoteAddress != socket.remoteAddress;
-        });
-        console.log("Client disconnected! " + allClients.length);
-        if (allClients.length <= 1 && allClients.length > 0) {
-
-            allClients[0].write("%GameWon");
-        }
-    });
     socket.on("data", function (data) {
         var s = data.toString("UTF8");
         console.log(s);
@@ -68,13 +58,17 @@ server.on("connection", function (socket) {
             });
         }
         if (command[0] == "$LostGame") {
+            console.log("Client disconnected " + socket.remoteAddress + " " + allClients.length);
             allClients = allClients.filter(function (ss) {
                 return ss.remoteAddress != socket.remoteAddress;
             });
             if (allClients.length <= 1 && allClients.length > 0) {
 
                 allClients[0].write("%GameWon");
+                allClients[0].destroy();
+                console.log("Game Over!");
             }
+            socket.destroy();
         }
     });
 });
