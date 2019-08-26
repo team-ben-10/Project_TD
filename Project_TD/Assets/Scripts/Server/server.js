@@ -6,18 +6,55 @@ var server = net.createServer(function(socket) {
 	socket.pipe(socket);
 });
 
-server.listen(35555, '127.0.0.1');
+var os = require('os');
+var ifaces = os.networkInterfaces();
 
-console.log("Server running!");
+var internalAddress = "";
+
+Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+            // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+            return;
+        }
+
+        if (alias >= 1) {
+            // this single interface has multiple ipv4 addresses
+            console.log(ifname + ':' + alias, iface.address);
+            internalAddress = iface.address.toString();
+        } else {
+            // this interface has only one ipv4 adress
+            console.log(ifname, iface.address);
+            internalAddress = iface.address.toString();
+        }
+        ++alias;
+    });
+});
+
+var playerCount = process.argv[2];
+server.listen(35555, internalAddress);
+
+console.log("Server running on " + internalAddress + "! Min Player Count: " + playerCount);
 
 server.on("connection", function (socket) {
     console.log("New Client " + socket.address().address);
     allClients.push(socket);
+    if (allClients.length >= playerCount) {
+        allClients.forEach((s) => {
+            s.write("%BeginGame");
+        });
+    }
     socket.on("close", function () {
         allClients = allClients.filter(function (s) {
             return s.address().address != socket.address().address;
         });
         console.log("Client disconnected! " + allClients.length);
+        if (allClients.length <= 1 && allClients.length > 0) {
+            
+            allClients[0].write("%GameWon");
+        }
     });
     socket.on("data", function (data) {
         var s = data.toString("UTF8");
@@ -28,10 +65,17 @@ server.on("connection", function (socket) {
                 if (s.address().address != socket.address().address) {
                     s.write("%RecieveBlocker " + command[1]);
                 }
-                else {
-                    s.write("%SentBlocker " + command[1]);
-                }
             });
+        }
+        socket.
+        if (command[0] == "$LostGame") {
+            allClients = allClients.filter(function (ss) {
+                return ss.address().address != socket.address().address;
+            });
+            if (allClients.length <= 1 && allClients.length > 0) {
+
+                allClients[0].write("%GameWon");
+            }
         }
     });
 });

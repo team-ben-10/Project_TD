@@ -17,6 +17,9 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     LayerMask shootable;
 
+    [SerializeField]
+    Material shootMat;
+
     private void Start()
     {
         SetupWeapon();
@@ -84,14 +87,17 @@ public class WeaponManager : MonoBehaviour
         if (hit)
         {
             lr.SetPosition(1, hit.point);
+            CharacterStats stats = hit.collider.GetComponent<CharacterStats>();
+            if(stats != null)
+            {
+                stats.TakeDamage(currentWeapon.damage);
+            }
         }
         else
         {
             lr.SetPosition(1, dir*100);
         }
-        Material m = new Material(Shader.Find("Standard"));
-        m.color = new Color(255, 255, 255, 1);
-        lr.material = m;
+        lr.material = shootMat;
         Destroy(lr.gameObject, 0.1f);
         yield return new WaitForSeconds(currentWeapon.fireSpeed);
         canFire = true;

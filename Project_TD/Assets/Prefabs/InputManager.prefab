@@ -48,6 +48,8 @@ MonoBehaviour:
     key: 32
   - name: Fire
     key: 32
+  - name: Shop
+    key: 9
   axises:
   - name: Horizontal
     Poskey: 100

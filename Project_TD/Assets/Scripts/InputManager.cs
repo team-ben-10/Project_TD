@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -96,6 +97,15 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(this);
+        
+        
+    }
+
+    private void Awake()
+    {
+        if (instance != null)
+            Destroy(instance.gameObject);
         instance = this;
     }
 }
