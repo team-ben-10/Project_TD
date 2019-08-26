@@ -39,7 +39,7 @@ server.listen(35555, internalAddress);
 console.log("Server running on " + internalAddress + "! Min Player Count: " + playerCount);
 
 server.on("connection", function (socket) {
-    console.log("New Client " + socket.remoteAddress);
+    console.log("New Client " + socket.remoteAddress + " " + allClients.length);
     allClients.push(socket);
     if (allClients.length >= playerCount) {
         allClients.forEach((s) => {
@@ -58,14 +58,13 @@ server.on("connection", function (socket) {
             });
         }
         if (command[0] == "$LostGame") {
-            console.log("Client disconnected " + socket.remoteAddress + " " + allClients.length);
             allClients = allClients.filter(function (ss) {
                 return ss.remoteAddress != socket.remoteAddress;
             });
+            console.log("Client disconnected " + socket.remoteAddress + " " + allClients.length);
             if (allClients.length <= 1 && allClients.length > 0) {
 
                 allClients[0].write("%GameWon");
-                allClients[0].destroy();
                 console.log("Game Over!");
             }
             socket.destroy();

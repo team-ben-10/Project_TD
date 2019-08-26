@@ -65,6 +65,7 @@ public class Client : MonoBehaviour
         if (s == "%GameWon")
         {
             SceneManager.LoadScene(0);
+            Send("$LostGame");
             Debug.Log("Won the Game!");
         }
     }
