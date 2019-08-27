@@ -11,6 +11,5 @@ public class ConnectionToServer : MonoBehaviour
     public void Connect()
     {
         Client.instance.Connect(inputField.text);
-        SceneManager.LoadScene(1);
     }
 }

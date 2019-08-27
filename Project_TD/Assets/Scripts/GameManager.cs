@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject PlayerPrefab;
     [SerializeField] GameObject playerSpawnEffect;
+    [SerializeField] GameObject DamageIndecator;
 
     [Header("Scene Objects")]
     [SerializeField]
@@ -31,12 +32,20 @@ public class GameManager : MonoBehaviour
     public bool TowerAlive { get; set; } = true;
     [HideInInspector] public int EnemyData { get; set; } = 0;
     [HideInInspector] public float TimePast;
+    [HideInInspector] public Weapon startWeapon { get; set; }
+    [HideInInspector] public bool weaponSelected { get; set; }
+    
 
     public static GameManager instance;
 
     void Awake()
     {
         instance = this;
+    }
+
+    public void ShowDamage(float value, Vector2 pos)
+    {
+        Instantiate(DamageIndecator, pos, Quaternion.identity).GetComponent<Damage_Display>().value = value;
     }
 
     IEnumerator PlayerDeathCoroutine()
@@ -48,6 +57,8 @@ public class GameManager : MonoBehaviour
             Destroy(Instantiate(playerSpawnEffect, PlayerSpawn.transform.position, Quaternion.identity), 3);
             yield return new WaitForSeconds(2);
             Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
+            Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
+            Player.GetComponent<WeaponManager>().SetupWeapon();
         }
         else
         {
@@ -76,9 +87,12 @@ public class GameManager : MonoBehaviour
         }
         waitingForPlayersText.text = "GO!";
         yield return new WaitForSeconds(1);
-        BeforeGameReadyObject.SetActive(false);
-        Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
         Running = true;
+        BeforeGameReadyObject.SetActive(false);
+        while (!weaponSelected) { yield return null; }
+        Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
+        Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
+        Player.GetComponent<WeaponManager>().SetupWeapon();
     }
 
     float alpha = 1;

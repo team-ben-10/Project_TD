@@ -16,6 +16,12 @@ MonoBehaviour:
     type: 3}
   shootParticle: {fileID: 7938823602133706447, guid: 08af6dc1441b5424d8c5c338623d4aeb,
     type: 3}
+  icon: {fileID: 21300000, guid: 6d70ebd137c6e3143b944df871537074, type: 3}
+  description: A handcannon with a high fire rate.
   damage: 10
   fireSpeed: 0.5
   gunFireSound: 
+  customShootingName: 
+  customShootingParams: []
+  customShootingObjects: []
+  perks: []

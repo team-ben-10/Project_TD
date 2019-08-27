@@ -46,7 +46,16 @@ public class Client : MonoBehaviour
                 if (length > 0)
                 {
                     string text = Encoding.UTF8.GetString(data).Trim().Replace("\0", "");
-                    UnityMainThreadDispatcher.Instance().Enqueue(() => onMSGRecieved.Invoke(text));
+                    if (text.Contains("&"))
+                    {
+                        var splits = text.Split('&');
+                        foreach (var item in splits)
+                        {
+                            UnityMainThreadDispatcher.Instance().Enqueue(() => onMSGRecieved.Invoke(item));
+                        }
+                    }
+                    else
+                        UnityMainThreadDispatcher.Instance().Enqueue(() => onMSGRecieved.Invoke(text));
                 }
             }
         });
@@ -69,6 +78,11 @@ public class Client : MonoBehaviour
             SceneManager.LoadScene(0);
             Disconnect();
             Debug.Log("Won the Game!");
+        }
+        if (s.StartsWith("%ChangeToMap"))
+        {
+            var splits = s.Split(' ');
+            SceneManager.LoadScene(int.Parse(splits[1]));
         }
     }
 

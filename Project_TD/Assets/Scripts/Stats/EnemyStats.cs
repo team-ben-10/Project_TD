@@ -15,6 +15,10 @@ public class EnemyStats : CharacterStats
     {
         Destroy(gameObject);
         GameManager.instance.EnemyData++;
+        var weapon = GameManager.instance.Player.GetComponent<WeaponManager>().currentWeapon;
+        weapon.perks.ForEach(x => {
+            x.OnKill(weapon, this, GameManager.instance.Player.GetComponent<PlayerStats>());
+            });
         Destroy(Instantiate(enemyDeathEffect, transform.position, Quaternion.identity), 3f);
     }
 

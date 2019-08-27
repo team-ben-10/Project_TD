@@ -8,6 +8,13 @@ public class TowerStats : CharacterStats
     [SerializeField] Image HealthBarFill;
     [SerializeField] Image HealthBar;
     [SerializeField] ParticleSystem Fire;
+    [SerializeField] float LightRange;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(Fire.transform.position, LightRange);
+    }
 
     public override void TakeDamage(float amount)
     {
@@ -31,6 +38,13 @@ public class TowerStats : CharacterStats
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K)) TakeDamage(10);
+        if (GameManager.instance.Player != null) {
+            if (Vector2.Distance(GameManager.instance.Player.transform.position, Fire.transform.position)<= LightRange)
+            {
+                var stats = GameManager.instance.Player.GetComponent<PlayerStats>();
+                stats.TimeOutSideLight += 1f;
+            }
+         }
     }
 
 }

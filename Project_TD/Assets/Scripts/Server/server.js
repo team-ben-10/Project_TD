@@ -1,6 +1,19 @@
 var net = require('net');
 
 var allClients = [];
+class MapID {
+    constructor(name,id) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+var allMapIDS = [];
+allMapIDS.push(new MapID("Forest", 1));
+var currentID = "Forest";
+if (process.argv.length >= 3) {
+    currentID = process.argv[2];
+}
 
 var server = net.createServer(function(socket) {
 	socket.pipe(socket);
@@ -39,11 +52,14 @@ server.listen(35555, internalAddress);
 console.log("Server running on " + internalAddress + "! Min Player Count: " + playerCount);
 
 server.on("connection", function (socket) {
+    socket.write("%ChangeToMap " + allMapIDS.find(function (x) {
+        return x.name = currentID;
+    }).id + "&");
     console.log("New Client " + socket.remoteAddress + " " + allClients.length);
     allClients.push(socket);
     if (allClients.length >= playerCount) {
         allClients.forEach((s) => {
-            s.write("%BeginGame");
+            s.write("%BeginGame" + "&");
         });
     }
     socket.on("data", function (data) {
@@ -53,7 +69,7 @@ server.on("connection", function (socket) {
         if (command[0] == "$SendBlocker") {
             allClients.forEach(function (s) {
                 if (s.remoteAddress != socket.remoteAddress) {
-                    s.write("%RecieveBlocker " + command[1]);
+                    s.write("%RecieveBlocker " + command[1] + "&");
                 }
             });
         }
@@ -64,7 +80,7 @@ server.on("connection", function (socket) {
             console.log("Client disconnected " + socket.remoteAddress + " " + allClients.length);
             if (allClients.length <= 1 && allClients.length > 0) {
 
-                allClients[0].write("%GameWon");
+                allClients[0].write("%GameWon" + "&");
                 console.log("Game Over!");
             }
             socket.destroy();

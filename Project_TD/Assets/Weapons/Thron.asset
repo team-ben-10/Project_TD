@@ -16,6 +16,12 @@ MonoBehaviour:
     type: 3}
   shootParticle: {fileID: 7938823602133706447, guid: 08af6dc1441b5424d8c5c338623d4aeb,
     type: 3}
+  icon: {fileID: 21300000, guid: e2b5626f48f097d4cb74fcd50acebcd4, type: 3}
+  description: Your normal firing handcannon.
   damage: 15
   fireSpeed: 1
   gunFireSound: 
+  customShootingName: 
+  customShootingParams: []
+  customShootingObjects: []
+  perks: []
