@@ -58,9 +58,12 @@ public class GameManager : MonoBehaviour
             Camera.main.transform.position = PlayerSpawn.transform.position;
             Destroy(Instantiate(playerSpawnEffect, PlayerSpawn.transform.position, Quaternion.identity), 3);
             yield return new WaitForSeconds(2);
-            Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
-            Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
-            Player.GetComponent<WeaponManager>().SetupWeapon();
+            if (Player == null)
+            {
+                Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
+                Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
+                Player.GetComponent<WeaponManager>().SetupWeapon();
+            }
         }
         else
         {
@@ -92,10 +95,13 @@ public class GameManager : MonoBehaviour
         Running = true;
         BeforeGameReadyObject.SetActive(false);
         while (!weaponSelected) { yield return null; }
-        Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
-        Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
-        Player.GetComponent<WeaponManager>().SetupWeapon();
-        Player.GetComponent<PlayerStats>().Setup();
+        if (Player == null)
+        {
+            Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
+            Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
+            Player.GetComponent<WeaponManager>().SetupWeapon();
+            Player.GetComponent<PlayerStats>().Setup();
+        }
     }
 
     float alpha = 1;

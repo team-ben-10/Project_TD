@@ -100,7 +100,8 @@ public class Client : MonoBehaviour
 
     void GameBeginInvoke()
     {
-        GameManager.instance.BeginGame();
+        if(!GameManager.instance.Running)
+            GameManager.instance.BeginGame();
     }
 
     public void Send(string s)
