@@ -20,7 +20,7 @@ MonoBehaviour:
   description: Bullets from this Auto Rifle ricochet of walls and enemies.
   damage: 7.5
   fireSpeed: 0.2
-  gunFireSound: 
+  gunFireSound: HardLight Shoot
   customShootingName: HardLight_Shooting
   customShootingParams:
   - 1

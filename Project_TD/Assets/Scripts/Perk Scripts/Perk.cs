@@ -7,8 +7,14 @@ public class Perk : ScriptableObject
 
     [Multiline]
     public string description;
+    string originalDescription;
     public float value;
     public Sprite icon;
+
+    private void OnEnable()
+    {
+        originalDescription = description;
+    }
 
     public virtual void OnHit(Weapon weapon,CharacterStats enemy, PlayerStats player)
     {
@@ -29,7 +35,9 @@ public class Perk : ScriptableObject
     {
         Perk p = (Perk)System.Activator.CreateInstance(GetType());
         p.name = name;
-        p.description = description.Replace("[value]", value.ToString());
+        if(originalDescription != "" && value != 0)
+            p.description = originalDescription.Replace("[value]", value.ToString());
+        p.originalDescription = originalDescription;
         p.value = value;
         p.icon = icon;
         return p;

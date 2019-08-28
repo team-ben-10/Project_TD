@@ -16,10 +16,11 @@ public class TowerStats : CharacterStats
         Gizmos.DrawWireSphere(Fire.transform.position, LightRange);
     }
 
-    public override void TakeDamage(float amount)
+    public override bool TakeDamage(float amount)
     {
         base.TakeDamage(amount);
         HealthBarFill.rectTransform.localScale = new Vector3(Mathf.Max(0, Health / MaxHealth * HealthBar.rectTransform.localScale.x), 1, 0);
+        return false;
     }
 
     public override void Die()

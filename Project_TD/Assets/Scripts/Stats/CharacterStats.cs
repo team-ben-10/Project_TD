@@ -14,11 +14,15 @@ public class CharacterStats : MonoBehaviour
         health = MaxHealth;
     }
 
-    public virtual void TakeDamage(float amount)
+    public virtual bool TakeDamage(float amount)
     {
         health -= amount;
         if (health <= 0)
+        {
             Die();
+            return true;
+        }
+        return false;
     }
 
     public virtual void Die()

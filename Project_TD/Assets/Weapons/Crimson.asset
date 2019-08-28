@@ -20,7 +20,7 @@ MonoBehaviour:
   description: A handcannon with a high fire rate.
   damage: 10
   fireSpeed: 0.5
-  gunFireSound: 
+  gunFireSound: Crimson Shoot
   customShootingName: 
   customShootingParams: []
   customShootingObjects: []

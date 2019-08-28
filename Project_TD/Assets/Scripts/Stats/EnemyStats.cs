@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class EnemyStats : CharacterStats
 {
     [SerializeField] GameObject enemyDeathEffect;
-    public override void TakeDamage(float amount)
+    public override bool TakeDamage(float amount)
     {
-        base.TakeDamage(amount);
+        Audio_Manager.instance.Play("Enemy Hit");
+        return base.TakeDamage(amount);
     }
 
 
     public override void Die()
     {
+        //CameraShaker.Instance.ShakeOnce(1f, 1f, .05f, .05f);
         Destroy(gameObject);
         GameManager.instance.EnemyData++;
         var weapon = GameManager.instance.Player.GetComponent<WeaponManager>().currentWeapon;

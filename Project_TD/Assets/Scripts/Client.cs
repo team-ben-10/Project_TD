@@ -13,6 +13,7 @@ public class Client : MonoBehaviour
     public static Client instance;
     [HideInInspector] public Socket client;
     Thread readingThread;
+    public List<Perk> personalPerks = new List<Perk>();
 
     private void Awake()
     {
@@ -22,6 +23,17 @@ public class Client : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if(Weapon_Equipper.instance != null)
+        {
+            if (personalPerks.Count > 0)
+            {
+                Weapon_Equipper.instance.AddNewPerks(personalPerks);
+            }
+        }
     }
 
     public void Connect(string ip)

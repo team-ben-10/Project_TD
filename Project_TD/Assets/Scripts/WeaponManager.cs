@@ -51,6 +51,7 @@ public class WeaponManager : MonoBehaviour
     {
         //Basic Camera Follow
         Camera.main.transform.position = transform.position + new Vector3(0, 0, -10);
+        //EZCameraShake.CameraShaker.Instance.RestPositionOffset = transform.position + new Vector3(0, 0, -10);
 
         /*if (Input.GetKeyDown(KeyCode.G))
         {
@@ -100,7 +101,9 @@ public class WeaponManager : MonoBehaviour
     {
         canFire = false;
         //TODO: Play Sound, Particle.
-        
+
+        if(currentWeapon.gunFireSound != "")
+            Audio_Manager.instance.Play(currentWeapon.gunFireSound);
         var cs = GetComponent<Custom_Shooting>();
         cs?.OnFire(currentWeapon.customShootingParams, currentWeapon.customShootingObjects, currentGunObject,currentWeapon, shootable, shootMat);
         if (cs == null)

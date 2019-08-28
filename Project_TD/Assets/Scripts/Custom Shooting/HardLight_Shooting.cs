@@ -28,7 +28,7 @@ public class HardLight_Shooting : Custom_Shooting
             if (hit)
             {
                 lr.SetPosition(1, hit.point);
-                CharacterStats stats = hit.collider.GetComponent<CharacterStats>();
+                EnemyStats stats = hit.collider.GetComponent<EnemyStats>();
                 if (stats != null)
                 {
                     GameManager.instance.ShowDamage((int)currentWeapon.damage, hit.point);

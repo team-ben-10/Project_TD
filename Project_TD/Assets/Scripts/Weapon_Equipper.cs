@@ -20,6 +20,11 @@ public class Weapon_Equipper : MonoBehaviour
         instance = this;
     }
 
+    public void AddNewPerks(List<Perk> perks)
+    {
+        perks.ForEach(x => allPerks.Add(x.Copy()));
+    }
+
     void Start()
     {
         foreach (var item in allWeapons)
@@ -39,10 +44,13 @@ public class Weapon_Equipper : MonoBehaviour
         }
         foreach (var item in allPerks)
         {
-            var button = Instantiate(buttonPrefab, Content.transform);
-            button.transform.GetChild(0).GetComponent<Image>().sprite = item.icon;
-            button.transform.GetChild(0).eulerAngles = new Vector3(0, 0, 0);
-            button.GetComponent<Weapon_Equipper_Button>().perk = item.Copy();
+            if (item != null)
+            {
+                var button = Instantiate(buttonPrefab, Content.transform);
+                button.transform.GetChild(0).GetComponent<Image>().sprite = item.Copy().icon;
+                button.transform.GetChild(0).eulerAngles = new Vector3(0, 0, 0);
+                button.GetComponent<Weapon_Equipper_Button>().perk = item.Copy();
+            }
         }
     }
     

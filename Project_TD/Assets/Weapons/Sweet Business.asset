@@ -20,7 +20,7 @@ MonoBehaviour:
   description: This handy machine gun ramps up its speed over time.
   damage: 5
   fireSpeed: 0.25
-  gunFireSound: 
+  gunFireSound: SweetBusiness Shoot
   customShootingName: SweetBusiness_Shooting
   customShootingParams:
   - 0.25

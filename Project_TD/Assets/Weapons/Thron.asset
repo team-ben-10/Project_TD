@@ -20,7 +20,7 @@ MonoBehaviour:
   description: Your normal firing handcannon.
   damage: 15
   fireSpeed: 1
-  gunFireSound: 
+  gunFireSound: Thron Shoot
   customShootingName: 
   customShootingParams: []
   customShootingObjects: []

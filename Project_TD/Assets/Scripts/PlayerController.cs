@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(movement * speed,Mathf.Clamp(rb.velocity.y,-25,25));
         if (InputManager.instance.GetButtonDown("Jump") && onGround)
         {
+            Audio_Manager.instance.Play("Jump");
             rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
             onGround = false;
         }

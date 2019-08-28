@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
         Instantiate(DamageIndecator, pos, Quaternion.identity).GetComponent<Damage_Display>().value = value;
     }
 
+    
+
     IEnumerator PlayerDeathCoroutine()
     {
         Destroy(Player);
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviour
         Player = Instantiate(PlayerPrefab, PlayerSpawn.position, Quaternion.identity);
         Player.GetComponent<WeaponManager>().currentWeapon = startWeapon;
         Player.GetComponent<WeaponManager>().SetupWeapon();
+        Player.GetComponent<PlayerStats>().Setup();
     }
 
     float alpha = 1;
@@ -135,6 +138,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Audio_Manager.instance.Play("Main");
         if(Player == null)
         {
             Player = GameObject.Find("Player");
