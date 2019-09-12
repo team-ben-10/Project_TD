@@ -6,7 +6,14 @@ public class CameraMove : MonoBehaviour
 {
 
     public float speed;
-    public GameObject game;
+
+    public float mouseSensitivity;
+    public float clampAngle;
+
+
+    private float rotY;
+    private float rotX;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,5 +42,18 @@ public class CameraMove : MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody>().velocity += new Vector3(0, 0, -speed);
         }
+
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = -Input.GetAxis("Mouse Y");
+
+        rotY += mouseX * mouseSensitivity * Time.deltaTime;
+        rotX += mouseY * mouseSensitivity * Time.deltaTime;
+
+        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+
+        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        transform.rotation = localRotation;
+
+        
     }
 }
