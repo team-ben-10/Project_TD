@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 256692489}
   - component: {fileID: 256692488}
   - component: {fileID: 256692487}
+  - component: {fileID: 256692491}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -212,6 +213,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!218 &256692491
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256692486}
+  m_Enabled: 1
+  serializedVersion: 5
+  m_TerrainData: {fileID: 0}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ScaleInLightmap: 1
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_AllowAutoConnect: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +352,7 @@ GameObject:
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Player_BirdView
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,9 +435,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c1ef41d4d8aa3642b9d3b32e5e5d3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  mouseSensitivity: 15
-  clampAngle: 180
+  speed: 350
+  pause: 32
+  mouseSensitivity: 30
+  clampAngle: 90
+  scrollSpeed: 100
 --- !u!65 &963194230
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -446,4 +481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c426f4574ff88a40bcde6a03b0563f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 2588990036814033188, guid: 00460ef2e51cc38459d8d0093a597ebf, type: 3}
+  cube: {fileID: 100000, guid: da12e82f48e237747b2f824da5069ae2, type: 3}
+  pause: 32
+  groundHeight: 0
